@@ -4,15 +4,13 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: volta-cli/action@v1
-    - run: yarn install
-    - run: yarn lint
-    - run: yarn test
-    - run: yarn build
-      env:
-        CI: true
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
+      - run: yarn install
+      - run: yarn lint
+      - run: yarn build
+        env:
+          CI: true

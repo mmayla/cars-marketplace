@@ -19,10 +19,10 @@ if (error) {
 
 export const config = env as Env
 
-export const connectToDatabase = async (): Promise<Mongoose> => {
+export const connectToDatabase = async (dbname?: string): Promise<Mongoose> => {
   const mongodbURI = config.MONGODB_URI
   try {
-    return await mongoose.connect(mongodbURI as string)
+    return await mongoose.connect(mongodbURI as string, { dbName: dbname })
   } catch (error) {
     console.error(error)
     process.exit(1)

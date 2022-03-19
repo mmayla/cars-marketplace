@@ -85,7 +85,7 @@ const invalidCarsBody = [
 const carsRoute = `${apiPrefix}/cars`
 
 beforeAll(async () => {
-  await connectToDatabase()
+  await connectToDatabase('testdb')
 })
 
 afterEach((done) => {
