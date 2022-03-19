@@ -15,6 +15,10 @@ export const apiPrefix = '/api/v1'
 /**
  * API routes
  */
-app.route(`${apiPrefix}/cars`).get(carsController.getCars)
+app
+  .route(`${apiPrefix}/cars`)
+  .get(carsController.getCars)
+  .post(carsController.postCarsValidator)
+  .post(carsController.postCars)
 
 export default app
