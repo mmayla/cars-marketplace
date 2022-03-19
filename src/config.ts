@@ -1,5 +1,6 @@
 import * as typedDotenv from 'typed-dotenv'
 import type { Env } from 'typed-dotenv/dist/lib/types'
+import type { Mongoose } from 'mongoose'
 import mongoose from 'mongoose'
 
 const { error, env } = typedDotenv.config({
@@ -18,10 +19,10 @@ if (error) {
 
 export const config = env as Env
 
-export const connectToDatabase = async () => {
+export const connectToDatabase = async (): Promise<Mongoose> => {
   const mongodbURI = config.MONGODB_URI
   try {
-    await mongoose.connect(mongodbURI as string)
+    return await mongoose.connect(mongodbURI as string)
   } catch (error) {
     console.error(error)
     process.exit(1)

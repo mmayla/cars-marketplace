@@ -1,25 +1,47 @@
 /* eslint-disable jest/expect-expect, jest/no-done-callback */
 import request from 'supertest'
+
 import app, { apiPrefix } from '../src/app.js'
 import { connectToDatabase, closeDatabaseConnection } from '../src/config.js'
+import { CarModel } from '../src/cars/index.js'
 
 const validCarsBody = [
   {
     brand: 'Lamborghini',
     model: 'Aventador',
-    makeYear: 2020,
+    makeYear: 2021,
     color: 'blue',
     price: 335249,
   },
+  {
+    brand: 'Bugatti',
+    model: 'Veyron',
+    makeYear: 2021,
+    color: 'white',
+    price: 1900000,
+  },
+  {
+    brand: 'Rolls-Royce',
+    model: 'Cullinan',
+    makeYear: 2020,
+    color: 'navi blue',
+    price: 333000,
+  },
+  {
+    brand: 'Porsche',
+    model: '911',
+    makeYear: 2016,
+    color: 'red',
+    price: 111231,
+  },
+  {
+    brand: 'Lamborghini',
+    model: 'Aventador',
+    makeYear: 2019,
+    color: 'silver',
+    price: 300000,
+  },
 ]
-
-beforeAll(async () => {
-  await connectToDatabase()
-})
-
-afterAll(async () => {
-  await closeDatabaseConnection()
-})
 
 const invalidCarsBody = [
   {
@@ -59,11 +81,25 @@ const invalidCarsBody = [
   },
 ]
 
+const carsRoute = `${apiPrefix}/cars`
+
+beforeAll(async () => {
+  await connectToDatabase()
+})
+
+afterEach((done) => {
+  CarModel.deleteMany({}, done)
+})
+
+afterAll(async () => {
+  await closeDatabaseConnection()
+})
+
 describe('POST /cars', () => {
-  validCarsBody.forEach((test) => {
-    it('should return 200', (done) => {
+  validCarsBody.forEach((test, index) => {
+    it(`should return 200 - test index: ${index}`, (done) => {
       request(app)
-        .post(`${apiPrefix}/cars`)
+        .post(carsRoute)
         .send(test)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -71,14 +107,27 @@ describe('POST /cars', () => {
     })
   })
 
-  invalidCarsBody.forEach((test) => {
-    it('should return 400', (done) => {
+  invalidCarsBody.forEach((test, index) => {
+    it(`should return 400 - test index: ${index}`, (done) => {
       request(app)
-        .post(`${apiPrefix}/cars`)
+        .post(carsRoute)
         .send(test)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400, done)
     })
+  })
+})
+
+describe('GET /cars', () => {
+  beforeAll(() => {
+    CarModel.insertMany(validCarsBody)
+  })
+
+  it('should return 200', async () => {
+    const res = await request(app).get(carsRoute)
+    expect(res.status).toEqual(200)
+    expect(res.headers['content-type']).toMatch(/json/)
+    expect(res.body['meta']['total_items']).toEqual(validCarsBody.length)
   })
 })
