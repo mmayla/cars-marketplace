@@ -1,9 +1,10 @@
 /* eslint-disable jest/expect-expect, jest/no-done-callback */
 import request from 'supertest'
+import mongoose from 'mongoose'
 
 import app, { apiPrefix } from '../src/app.js'
 import { connectToDatabase, closeDatabaseConnection } from '../src/config.js'
-import { CarModel } from '../src/cars/index.js'
+import { CarModel, CarDocument } from '../src/cars/index.js'
 
 const validCarsBody = [
   {
@@ -120,8 +121,9 @@ describe('POST /cars', () => {
 })
 
 describe('GET /cars', () => {
-  beforeAll(() => {
-    CarModel.insertMany(validCarsBody)
+  let insertedCars: CarDocument[]
+  beforeEach(async () => {
+    insertedCars = await CarModel.insertMany(validCarsBody)
   })
 
   it('should return 200', async () => {
@@ -129,5 +131,32 @@ describe('GET /cars', () => {
     expect(res.status).toEqual(200)
     expect(res.headers['content-type']).toMatch(/json/)
     expect(res.body['meta']['total_items']).toEqual(validCarsBody.length)
+  })
+
+  it('should list limit query work', async () => {
+    const res = await request(app).get(carsRoute).query({
+      offset: 0,
+      limit: 2,
+    })
+    expect(res.status).toEqual(200)
+    expect(res.headers['content-type']).toMatch(/json/)
+    expect(res.body['items'].length).toEqual(2)
+  })
+
+  it('should get an existing Car', async () => {
+    const car = insertedCars[0]
+    const res = await request(app).get(`${carsRoute}/${car._id.toString()}`)
+
+    expect(res.status).toEqual(200)
+    expect(res.headers['content-type']).toMatch(/json/)
+    expect(res.body).toEqual(JSON.parse(JSON.stringify(car)))
+  })
+
+  it('should fail to get non-existing Car', async () => {
+    const newId = new mongoose.Types.ObjectId()
+    const res = await request(app).get(`${carsRoute}/${newId.toString()}`)
+
+    expect(res.status).toEqual(404)
+    expect(res.headers['content-type']).toMatch(/json/)
   })
 })
