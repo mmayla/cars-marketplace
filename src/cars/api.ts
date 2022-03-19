@@ -50,11 +50,32 @@ export const getCars = async (req: Request, res: Response) => {
   }
 }
 
-export const postCars = async (req: Request, res: Response) => {
+export const postCar = async (req: Request, res: Response) => {
   try {
     const car = new CarModel(req.body)
     await car.save()
     res.json(car)
+  } catch (error) {
+    res.status(500).json({
+      error: error,
+    })
+  }
+}
+
+export const deleteOneCar = async (req: Request, res: Response) => {
+  const { carId } = req.params
+  try {
+    const car = await CarModel.findOneAndRemove({
+      _id: carId,
+    })
+
+    if (car) {
+      res.json(car)
+    } else {
+      res.status(404).json({
+        message: `Car with ${carId} not found`,
+      })
+    }
   } catch (error) {
     res.status(500).json({
       error: error,

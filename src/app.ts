@@ -16,14 +16,16 @@ export const apiPrefix = '/api/v1'
  */
 app
   .route(`${apiPrefix}/cars`)
-  .get(carsController.getCarsValidator)
+  .get(carsController.CarPaginationQueryValidator)
   .get(carsController.getCars)
-  .post(carsController.postCarsValidator)
-  .post(carsController.postCars)
+  .post(carsController.carBodyValidator)
+  .post(carsController.postCar)
 
 app
   .route(`${apiPrefix}/cars/:carId`)
-  .get(carsController.getOneCarValidator)
+  .get(carsController.carIdParamsValidator)
   .get(carsController.getOneCar)
+  .delete(carsController.carIdParamsValidator)
+  .delete(carsController.deleteOneCar)
 
 export default app

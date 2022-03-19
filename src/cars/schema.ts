@@ -2,7 +2,7 @@ import { JSONSchemaType } from 'ajv'
 
 import type { Car } from './types'
 
-export const postSchema: JSONSchemaType<Car> = {
+export const carSchema: JSONSchemaType<Car> = {
   type: 'object',
   properties: {
     brand: {
@@ -25,7 +25,7 @@ export const postSchema: JSONSchemaType<Car> = {
   additionalProperties: false,
 }
 
-export const getSchema: JSONSchemaType<{
+export const carPaginationSchema: JSONSchemaType<{
   offset?: number
   limit?: number
 }> = {
@@ -46,7 +46,7 @@ export const getSchema: JSONSchemaType<{
   additionalProperties: false,
 }
 
-export const getOneSchema: JSONSchemaType<{
+export const carIdSchema: JSONSchemaType<{
   carId: string
 }> = {
   type: 'object',

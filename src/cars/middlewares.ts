@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from 'express'
 import Ajv from 'ajv'
 
-import { postSchema, getSchema, getOneSchema } from './schema.js'
+import { carSchema, carPaginationSchema, carIdSchema } from './schema.js'
 
-export const postCarsValidator = (
+export const carBodyValidator = (
   req: Request,
   res: Response,
   next: NextFunction,
 ): void => {
   const ajv = new Ajv()
-  const validate = ajv.compile(postSchema)
+  const validate = ajv.compile(carSchema)
   if (validate(req.body)) {
     next()
   } else {
@@ -19,13 +19,13 @@ export const postCarsValidator = (
   }
 }
 
-export const getCarsValidator = (
+export const CarPaginationQueryValidator = (
   req: Request,
   res: Response,
   next: NextFunction,
 ): void => {
   const ajv = new Ajv({ coerceTypes: true })
-  const validate = ajv.compile(getSchema)
+  const validate = ajv.compile(carPaginationSchema)
   if (validate(req.query)) {
     next()
   } else {
@@ -35,13 +35,13 @@ export const getCarsValidator = (
   }
 }
 
-export const getOneCarValidator = (
+export const carIdParamsValidator = (
   req: Request,
   res: Response,
   next: NextFunction,
 ): void => {
   const ajv = new Ajv({ coerceTypes: true })
-  const validate = ajv.compile(getOneSchema)
+  const validate = ajv.compile(carIdSchema)
   if (validate(req.params)) {
     next()
   } else {
