@@ -35,6 +35,52 @@ The project can be started using `docker-compose`
 docker-compose up
 ```
 
+## Usage
+
+Assuming the server is started with `PORT=3000`. The following REST APIs are exposed:
+
+- **POST** `http://localhost:3000/api/v1/cars`
+
+  Create a car.
+
+  Accepting body with shape:
+
+  ```
+  {
+    "brand": string,
+    "model": string,
+    "makeYear": number,
+    "color": string,
+    "price": number
+  }
+  ```
+
+- **GET** `http://localhost:3000/api/v1/cars?offset=0&limit=100`
+
+  Fetch all cars with pagination support. Where offset and limit are optional query params.
+
+- **GET** `http://localhost:3000/api/v1/cars/:carId`
+
+  Fetch a single car with `cardId`. Where `cardId` is a valid mongo id.
+
+- **PUT** `http://localhost:3000/api/v1/cars/:carId`
+
+  Partial update a single car with `cardId`. Where `cardId` is a valid mongo id and accepting a body with at least one of these properties:
+
+  ```
+  {
+    "brand": string,
+    "model": string,
+    "makeYear": number,
+    "color": string,
+    "price": number
+  }
+  ```
+
+- **DELETE** `http://localhost:3000/api/v1/cars/:carId`
+
+  Delete a single car with `cardId`. Where `cardId` is a valid mongo id.
+
 ## Notes
 
 This project is started from [node-typescript-boilerplate][node-typescript-boilerplate] template.
