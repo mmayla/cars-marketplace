@@ -65,7 +65,7 @@ export const postCar = async (req: Request, res: Response) => {
 export const deleteOneCar = async (req: Request, res: Response) => {
   const { carId } = req.params
   try {
-    const car = await CarModel.findOneAndRemove({
+    const car = await CarModel.findByIdAndDelete({
       _id: carId,
     })
 
