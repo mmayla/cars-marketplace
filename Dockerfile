@@ -3,7 +3,7 @@ LABEL MAINTAINER Mohamed Mayla <mohamed.mayla@gmail.com>
 
 RUN yarn global add pm2@latest --silent
 
-WORKDIR /app
+WORKDIR /usr/src/app
 COPY package*.json ./
 
 COPY . .
