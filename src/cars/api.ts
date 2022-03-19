@@ -16,7 +16,7 @@ export const getOneCar = async (req: Request, res: Response) => {
       })
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       error: error,
     })
   }
@@ -44,7 +44,7 @@ export const getCars = async (req: Request, res: Response) => {
       items: cars,
     })
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       error: error,
     })
   }
@@ -56,7 +56,7 @@ export const postCars = async (req: Request, res: Response) => {
     await car.save()
     res.json(car)
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       error: error,
     })
   }
