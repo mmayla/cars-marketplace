@@ -1,7 +1,11 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { CarModel } from './model.js'
 
-export const getOneCar = async (req: Request, res: Response) => {
+export const getOneCar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { carId } = req.params
 
   try {
@@ -16,13 +20,15 @@ export const getOneCar = async (req: Request, res: Response) => {
       })
     }
   } catch (error) {
-    res.status(500).json({
-      error: error,
-    })
+    next(error)
   }
 }
 
-export const getCars = async (req: Request, res: Response) => {
+export const getCars = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const offset = Number(req.query.offset) || 0
   const limit = Number(req.query.limit) || 100
   try {
@@ -44,25 +50,29 @@ export const getCars = async (req: Request, res: Response) => {
       items: cars,
     })
   } catch (error) {
-    res.status(500).json({
-      error: error,
-    })
+    next(error)
   }
 }
 
-export const postCar = async (req: Request, res: Response) => {
+export const postCar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const car = new CarModel(req.body)
     await car.save()
     res.json(car)
   } catch (error) {
-    res.status(500).json({
-      error: error,
-    })
+    next(error)
   }
 }
 
-export const deleteOneCar = async (req: Request, res: Response) => {
+export const deleteOneCar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { carId } = req.params
   try {
     const car = await CarModel.findByIdAndDelete({
@@ -77,13 +87,15 @@ export const deleteOneCar = async (req: Request, res: Response) => {
       })
     }
   } catch (error) {
-    res.status(500).json({
-      error: error,
-    })
+    next(error)
   }
 }
 
-export const updateOneCar = async (req: Request, res: Response) => {
+export const updateOneCar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { carId } = req.params
 
   try {
@@ -105,8 +117,6 @@ export const updateOneCar = async (req: Request, res: Response) => {
       })
     }
   } catch (error) {
-    res.status(500).json({
-      error: error,
-    })
+    next(error)
   }
 }

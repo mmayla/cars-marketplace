@@ -18,7 +18,7 @@ export const carBodyValidator = (
   if (validate(req.body)) {
     next()
   } else {
-    res.json({
+    res.status(400).json({
       error: validate.errors,
     })
   }
@@ -56,7 +56,7 @@ export const CarPaginationQueryValidator = (
   if (validate(req.query)) {
     next()
   } else {
-    res.json({
+    res.status(400).json({
       error: validate.errors,
     })
   }
@@ -72,7 +72,7 @@ export const carIdParamsValidator = (
   if (validate(req.params)) {
     next()
   } else {
-    res.json({
+    res.status(400).json({
       error: validate.errors,
     })
   }

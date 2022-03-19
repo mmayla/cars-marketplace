@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 
 import * as carsController from './cars/index.js'
 
@@ -28,5 +28,18 @@ app
   .put(carsController.carPartialBodyValidator)
   .put(carsController.updateOneCar)
   .delete(carsController.deleteOneCar)
+
+/**
+ * Error handlers
+ */
+app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
+  if (res.headersSent) {
+    return next(err)
+  }
+  console.error(err.stack)
+  res.status(500).json({
+    message: 'Internal server error.',
+  })
+})
 
 export default app
