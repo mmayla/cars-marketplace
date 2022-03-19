@@ -45,7 +45,9 @@
     "ajv": "^8.10.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.3",
-    "tslib": "~2.3.1"
+    "mongodb": "^4.4.1",
+    "tslib": "~2.3.1",
+    "typed-dotenv": "^10.0.1"
   },
   "volta": {
     "node": "16.13.0",

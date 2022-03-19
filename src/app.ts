@@ -8,7 +8,6 @@ const app = express()
  * Express configuration
  */
 app.use(express.json())
-app.set('PORT', process.env.PORT || 3000)
 
 export const apiPrefix = '/api/v1'
 
