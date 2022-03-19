@@ -1,6 +1,6 @@
 import express from 'express'
 
-import * as carsController from './controllers/cars.js'
+import * as carsController from './cars/index.js'
 
 const app = express()
 
