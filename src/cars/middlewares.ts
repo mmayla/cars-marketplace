@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import Ajv from 'ajv'
 
-import { postSchema, getSchema } from './schema.js'
+import { postSchema, getSchema, getOneSchema } from './schema.js'
 
 export const postCarsValidator = (
   req: Request,
@@ -27,6 +27,22 @@ export const getCarsValidator = (
   const ajv = new Ajv({ coerceTypes: true })
   const validate = ajv.compile(getSchema)
   if (validate(req.query)) {
+    next()
+  } else {
+    res.json({
+      error: validate.errors,
+    })
+  }
+}
+
+export const getOneCarValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void => {
+  const ajv = new Ajv({ coerceTypes: true })
+  const validate = ajv.compile(getOneSchema)
+  if (validate(req.params)) {
     next()
   } else {
     res.json({

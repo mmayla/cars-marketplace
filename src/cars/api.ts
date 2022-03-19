@@ -1,6 +1,27 @@
 import { Request, Response } from 'express'
 import { CarModel } from './model.js'
 
+export const getOneCar = async (req: Request, res: Response) => {
+  const { carId } = req.params
+
+  try {
+    const car = await CarModel.findOne({
+      _id: carId,
+    })
+    if (car) {
+      res.json(car)
+    } else {
+      res.status(404).json({
+        message: `Car with ${carId} not found`,
+      })
+    }
+  } catch (error) {
+    res.status(400).json({
+      error: error,
+    })
+  }
+}
+
 export const getCars = async (req: Request, res: Response) => {
   const offset = Number(req.query.offset) || 0
   const limit = Number(req.query.limit) || 100

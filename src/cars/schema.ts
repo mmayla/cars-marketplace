@@ -45,3 +45,18 @@ export const getSchema: JSONSchemaType<{
   },
   additionalProperties: false,
 }
+
+export const getOneSchema: JSONSchemaType<{
+  carId: string
+}> = {
+  type: 'object',
+  properties: {
+    carId: {
+      type: 'string',
+      minLength: 24,
+      maxLength: 24,
+    },
+  },
+  required: ['carId'],
+  additionalProperties: false,
+}

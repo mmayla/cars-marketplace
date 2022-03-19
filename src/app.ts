@@ -21,4 +21,9 @@ app
   .post(carsController.postCarsValidator)
   .post(carsController.postCars)
 
+app
+  .route(`${apiPrefix}/cars/:carId`)
+  .get(carsController.getOneCarValidator)
+  .get(carsController.getOneCar)
+
 export default app
