@@ -7,18 +7,23 @@ export const carPropertiesSchema: JSONSchemaType<Car> = {
   properties: {
     brand: {
       type: 'string',
+      minLength: 1,
     },
     model: {
       type: 'string',
+      minLength: 1,
     },
     makeYear: {
       type: 'integer',
+      minimum: 1800,
     },
     color: {
       type: 'string',
+      minLength: 1,
     },
     price: {
       type: 'number',
+      minimum: 0,
     },
   },
   required: ['brand', 'model', 'makeYear', 'color', 'price'],
@@ -30,22 +35,27 @@ export const carPartialPropertiesSchema: JSONSchemaType<Partial<Car>> = {
   properties: {
     brand: {
       type: 'string',
+      minLength: 1,
       nullable: true,
     },
     model: {
       type: 'string',
+      minLength: 1,
       nullable: true,
     },
     makeYear: {
       type: 'integer',
+      minimum: 1800,
       nullable: true,
     },
     color: {
       type: 'string',
+      minLength: 1,
       nullable: true,
     },
     price: {
       type: 'number',
+      minimum: 0,
       nullable: true,
     },
   },
