@@ -23,9 +23,10 @@ app
 
 app
   .route(`${apiPrefix}/cars/:carId`)
-  .get(carsController.carIdParamsValidator)
+  .all(carsController.carIdParamsValidator)
   .get(carsController.getOneCar)
-  .delete(carsController.carIdParamsValidator)
+  .put(carsController.carPartialBodyValidator)
+  .put(carsController.updateOneCar)
   .delete(carsController.deleteOneCar)
 
 export default app

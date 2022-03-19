@@ -82,3 +82,31 @@ export const deleteOneCar = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const updateOneCar = async (req: Request, res: Response) => {
+  const { carId } = req.params
+
+  try {
+    const car = await CarModel.findByIdAndUpdate(
+      {
+        _id: carId,
+      },
+      req.body,
+      {
+        new: true,
+      },
+    )
+
+    if (car) {
+      res.json(car)
+    } else {
+      res.status(404).json({
+        message: `Car with ${carId} not found`,
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: error,
+    })
+  }
+}

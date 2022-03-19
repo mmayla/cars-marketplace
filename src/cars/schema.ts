@@ -2,7 +2,7 @@ import { JSONSchemaType } from 'ajv'
 
 import type { Car } from './types'
 
-export const carSchema: JSONSchemaType<Car> = {
+export const carPropertiesSchema: JSONSchemaType<Car> = {
   type: 'object',
   properties: {
     brand: {
@@ -22,6 +22,33 @@ export const carSchema: JSONSchemaType<Car> = {
     },
   },
   required: ['brand', 'model', 'makeYear', 'color', 'price'],
+  additionalProperties: false,
+}
+
+export const carPartialPropertiesSchema: JSONSchemaType<Partial<Car>> = {
+  type: 'object',
+  properties: {
+    brand: {
+      type: 'string',
+      nullable: true,
+    },
+    model: {
+      type: 'string',
+      nullable: true,
+    },
+    makeYear: {
+      type: 'integer',
+      nullable: true,
+    },
+    color: {
+      type: 'string',
+      nullable: true,
+    },
+    price: {
+      type: 'number',
+      nullable: true,
+    },
+  },
   additionalProperties: false,
 }
 

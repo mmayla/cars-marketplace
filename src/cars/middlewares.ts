@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import Ajv from 'ajv'
 
-import { carSchema, carPaginationSchema, carIdSchema } from './schema.js'
+import {
+  carPropertiesSchema,
+  carPartialPropertiesSchema,
+  carPaginationSchema,
+  carIdSchema,
+} from './schema.js'
 
 export const carBodyValidator = (
   req: Request,
@@ -9,11 +14,33 @@ export const carBodyValidator = (
   next: NextFunction,
 ): void => {
   const ajv = new Ajv()
-  const validate = ajv.compile(carSchema)
+  const validate = ajv.compile(carPropertiesSchema)
   if (validate(req.body)) {
     next()
   } else {
     res.json({
+      error: validate.errors,
+    })
+  }
+}
+
+export const carPartialBodyValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void => {
+  const ajv = new Ajv()
+  const validate = ajv.compile(carPartialPropertiesSchema)
+  if (validate(req.body)) {
+    if (Object.keys(req.body).length > 0) {
+      next()
+    } else {
+      res.status(400).json({
+        message: 'Should contain at least one update property.',
+      })
+    }
+  } else {
+    res.status(400).json({
       error: validate.errors,
     })
   }
