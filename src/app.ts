@@ -16,6 +16,7 @@ export const apiPrefix = '/api/v1'
  */
 app
   .route(`${apiPrefix}/cars`)
+  .get(carsController.getCarsValidator)
   .get(carsController.getCars)
   .post(carsController.postCarsValidator)
   .post(carsController.postCars)

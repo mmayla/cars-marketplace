@@ -24,3 +24,24 @@ export const postSchema: JSONSchemaType<Car> = {
   required: ['brand', 'model', 'makeYear', 'color', 'price'],
   additionalProperties: false,
 }
+
+export const getSchema: JSONSchemaType<{
+  offset?: number
+  limit?: number
+}> = {
+  type: 'object',
+  properties: {
+    offset: {
+      type: 'integer',
+      minimum: 0,
+      nullable: true,
+    },
+    limit: {
+      type: 'integer',
+      minimum: 0,
+      maximum: 500,
+      nullable: true,
+    },
+  },
+  additionalProperties: false,
+}
