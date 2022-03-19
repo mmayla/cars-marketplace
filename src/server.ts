@@ -1,5 +1,5 @@
 import errorHandler from 'errorhandler'
-import { config } from './config.js'
+import { config, connectToDatabase } from './config.js'
 import app from './app.js'
 
 const port = config.PORT
@@ -12,9 +12,12 @@ if (env === 'development') {
   app.use(errorHandler())
 }
 
-const server = app.listen(port, () => {
+const server = app.listen(port, async () => {
   console.log('  App is running at http://localhost:%d in %s mode', port, env)
   console.log('  Press CTRL-C to stop\n')
+
+  await connectToDatabase()
+  console.info('  Database is connected successfully!')
 })
 
 export default server
