@@ -160,3 +160,25 @@ describe('GET /cars', () => {
     expect(res.headers['content-type']).toMatch(/json/)
   })
 })
+
+describe('PUT /cars', () => {
+  let insertedCars: CarDocument[]
+  beforeEach(async () => {
+    insertedCars = await CarModel.insertMany(validCarsBody)
+  })
+
+  it('should partially update a Car', async () => {
+    const car = insertedCars[0]
+    const color = 'color-not-discovered'
+    const res = await request(app)
+      .put(`${carsRoute}/${car._id.toString()}`)
+      .send({
+        color,
+      })
+
+    expect(res.status).toEqual(200)
+    expect(res.headers['content-type']).toMatch(/json/)
+    expect(res.body['color']).not.toEqual(car.color)
+    expect(res.body['color']).toEqual(color)
+  })
+})
